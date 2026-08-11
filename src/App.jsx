@@ -17,6 +17,7 @@ const Affiliate = lazy(() => import('./pages/Affiliate'));
 const ShopManager = lazy(() => import('./pages/ShopManager'));
 const PathsManager = lazy(() => import('./pages/PathsManager'));
 const Classrooms = lazy(() => import('./pages/Classrooms'));
+const Security = lazy(() => import('./pages/Security'));
 
 const PageLoader = () => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50vh', color: 'var(--primary)', fontSize: '0.95rem' }}>
@@ -62,7 +63,7 @@ function AppRoutes() {
                                     <Route path="/shop" element={<ShopManager />} />
                                     <Route path="/paths" element={<PathsManager />} />
                                     <Route path="/classrooms" element={<Classrooms />} />
-                                    <Route path="/security" element={<Navigate to="/dashboard" replace />} />
+                                    <Route path="/security" element={<Security />} />
                                     <Route path="/word-puzzles" element={<Navigate to="/dashboard" replace />} />
                                 </Routes>
                             </Suspense>

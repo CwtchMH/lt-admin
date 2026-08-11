@@ -50,32 +50,20 @@ function Dashboard() {
         try {
             setLoading(true);
             setError('');
-            const [statsResponse, revenueResponse, newUsersResponse, dailyNewUsersResponse] = await Promise.all([
-                api.get('/api/admin/stats'),
-                api.get('/api/admin/revenue-summary'),
-                api.get('/api/admin/activity/new-users-trend?months=3'),
-                api.get('/api/admin/user-registration'),
-            ]);
-            const stats = unwrapApiData(statsResponse);
-            const revenue = unwrapApiData(revenueResponse);
-            const newUsers = unwrapApiData(newUsersResponse);
-            const dailyNewUsers = unwrapApiData(dailyNewUsersResponse) || [];
-            const dailyNewUserLabels = getLastSevenDayLabels();
+            // /dashboard gộp sẵn đúng các con số trang này hiển thị và được cache
+            // 60s ở backend. Trước đây đây là 4 request và ~18 truy vấn SQL.
+            const dashboardResponse = await api.get('/api/admin/dashboard');
+            const dashboard = unwrapApiData(dashboardResponse);
 
             setDashboardData({
-                overview: {
-                    ...stats,
-                    activeSubscriptions: stats?.subscriptions?.active || 0,
-                    currentMonthRevenue: revenue?.currentMonthRevenue || 0,
-                    nextMonthRevenue: revenue?.nextMonthRevenue || 0,
-                },
-                userGrowth: {
-                    lastThreeMonthsNewUsers: newUsers?.months?.reduce((sum, item) => sum + (item.count || 0), 0) || 0,
-                },
+                overview: dashboard?.overview || {},
+                userGrowth: dashboard?.userGrowth || {},
                 charts: {
                     newUsersLastSevenDays: {
-                        labels: dailyNewUserLabels,
-                        data: dailyNewUsers,
+                        labels: dashboard?.charts?.newUsersLastSevenDays?.labels?.length
+                            ? dashboard.charts.newUsersLastSevenDays.labels
+                            : getLastSevenDayLabels(),
+                        data: dashboard?.charts?.newUsersLastSevenDays?.data || [],
                     },
                 },
             });

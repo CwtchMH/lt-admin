@@ -18,6 +18,7 @@ function Layout({ children }) {
         { path: '/activity', icon: 'fas fa-user-clock', label: 'Hoạt động' },
         { path: '/subscriptions', icon: 'fas fa-credit-card', label: 'Doanh thu VIP' },
         { path: '/affiliate', icon: 'fas fa-handshake', label: 'Affiliate' },
+        { path: '/security', icon: 'fas fa-shield-alt', label: 'Bất thường' },
     ];
 
     useEffect(() => {
