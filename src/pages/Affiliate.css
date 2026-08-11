@@ -1,0 +1,144 @@
+﻿.affiliate-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.affiliate-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.affiliate-summary-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.affiliate-summary-card span {
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.affiliate-summary-card strong {
+  color: var(--gray-800);
+  font-size: 1.25rem;
+}
+
+.affiliate-panel {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.affiliate-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.125rem;
+  border-bottom: 1px solid var(--gray-200);
+  background: #f8fafc;
+}
+
+.affiliate-panel-header h3 {
+  margin: 0 0 0.25rem;
+  color: var(--gray-800);
+  font-size: 1rem;
+}
+
+.affiliate-panel-header p {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 0.875rem;
+}
+
+.affiliate-table-wrap {
+  overflow: auto;
+  max-width: 100%;
+}
+
+.affiliate-table {
+  width: 100%;
+  min-width: 1180px;
+  border-collapse: collapse;
+}
+
+.affiliate-table th {
+  background: var(--gray-50);
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-bottom: 1px solid var(--gray-200);
+  white-space: nowrap;
+}
+
+.affiliate-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--gray-700);
+  border-bottom: 1px solid var(--gray-100);
+  white-space: nowrap;
+}
+
+.affiliate-table tr:hover td {
+  background: var(--gray-50);
+}
+
+.affiliate-table code {
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 800;
+}
+
+.affiliate-user-cell {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.affiliate-user-cell strong {
+  color: var(--gray-800);
+  font-size: 0.875rem;
+}
+
+.affiliate-user-cell span {
+  color: var(--gray-500);
+  font-size: 0.78rem;
+}
+
+.affiliate-empty-state,
+.empty-cell {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--gray-400);
+}
+
+@media (max-width: 1100px) {
+  .affiliate-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .affiliate-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .affiliate-panel-header {
+    flex-direction: column;
+  }
+}

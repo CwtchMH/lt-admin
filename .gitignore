@@ -1,0 +1,14 @@
+node_modules/
+dist/
+
+# Log cua vite dev server
+*.log
+
+# Bien moi truong local - VITE_API_BASE_URL va cac gia tri rieng tung may
+.env
+.env.local
+.env.*.local
+
+.DS_Store
+.vscode/
+.idea/

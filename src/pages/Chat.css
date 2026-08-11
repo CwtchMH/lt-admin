@@ -1,0 +1,275 @@
+.chat-manager {
+  padding: 20px;
+}
+
+.chat-manager .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chat-manager .chat-subtitle {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.chat-manager .table-container {
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-manager .data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.chat-manager .data-table th,
+.chat-manager .data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.chat-manager .data-table th {
+  background: var(--gray-50);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.chat-manager .data-table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+.chat-manager .user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-manager .avatar-small {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-manager .message-content {
+  width: 38%;
+  max-width: 520px;
+  min-width: 260px;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.chat-manager .btn-icon.delete {
+  color: #e53e3e;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.chat-manager .btn-icon.delete:hover {
+  color: #c53030;
+}
+
+.chat-manager .text-center {
+  text-align: center;
+  padding: 20px;
+  color: #718096;
+}
+
+.chat-manager .chat-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.chat-manager .chat-count {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .chat-manager {
+    padding: 12px;
+  }
+
+  .chat-manager .page-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .chat-manager .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chat-manager .data-table {
+    min-width: 560px;
+  }
+
+  .chat-manager .chat-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chat-manager .message-content {
+    width: auto;
+    min-width: 220px;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-manager {
+    padding: 8px;
+  }
+
+  .chat-manager .data-table th,
+  .chat-manager .data-table td {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .chat-manager .message-content {
+    min-width: 180px;
+    max-width: 220px;
+  }
+
+  .chat-manager .avatar-small {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.chat-manager .message-cell {
+  width: 58%;
+}
+
+.chat-manager .message-content {
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+  line-height: 1.45;
+  max-height: calc(1.45em * 3);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.chat-manager .sender-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.chat-manager .sender-name {
+  color: #1f2937;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.chat-manager .message-time {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.chat-manager .delete-cell {
+  width: 84px;
+  text-align: center;
+}
+
+.chat-manager .btn-icon.delete {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+/* Keep chat actions visible */
+.chat-manager .table-container {
+  overflow-x: auto;
+}
+
+.chat-manager .data-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.chat-col-id { width: 9%; }
+.chat-col-sender { width: 30%; }
+.chat-col-content { width: auto; }
+.chat-col-delete { width: 84px; }
+
+.chat-manager .data-table th:last-child,
+.chat-manager .delete-cell {
+  width: 84px;
+  min-width: 84px;
+  max-width: 84px;
+  text-align: center;
+}
+
+.chat-manager .message-cell {
+  width: auto;
+  min-width: 0;
+}
+
+.chat-manager .message-content {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  line-height: 1.45;
+  max-height: calc(1.45em * 3);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.chat-manager .sender-meta {
+  overflow: hidden;
+}
+
+.chat-manager .sender-name,
+.chat-manager .message-time {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .chat-manager .data-table {
+    min-width: 720px;
+  }
+}

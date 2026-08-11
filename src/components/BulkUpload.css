@@ -1,0 +1,118 @@
+/* Bulk Upload Component Styles - Clean Theme */
+
+.bulk-upload-section {
+    padding: 0;
+    background: transparent;
+    border: none;
+    margin-top: 0;
+}
+
+.bulk-upload-section h4 {
+    display: none;
+    /* Hidden because modal header has title */
+}
+
+.bulk-upload-section .hint {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem 0;
+    background: #eff6ff;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid #dbeafe;
+}
+
+.bulk-upload-section .hint strong {
+    color: var(--primary);
+}
+
+.file-input-row {
+    margin-bottom: 1.5rem;
+}
+
+.file-input-row input[type="file"] {
+    padding: 2rem;
+    border: 2px dashed #cbd5e1;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    background: #f8fafc;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.file-input-row input[type="file"]:hover {
+    border-color: var(--primary);
+    background: #eff6ff;
+}
+
+/* Bulk Preview */
+.bulk-preview {
+    margin-top: 1.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.bulk-preview h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem 0;
+}
+
+.preview-table-wrapper {
+    overflow-x: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: white;
+}
+
+.preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.preview-table th,
+.preview-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.preview-table th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    background: #f1f5f9;
+    position: sticky;
+    top: 0;
+}
+
+.preview-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.error-message {
+    padding: 0.75rem 1rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-md);
+    color: #b91c1c;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}

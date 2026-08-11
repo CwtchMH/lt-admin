@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  # Admin2 Dashboard - React
+  admin2:
+    build: .
+    container_name: admin2-dashboard
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    networks:
+      - admin-network
+
+networks:
+  admin-network:
+    driver: bridge
