@@ -31,7 +31,9 @@ function Chat() {
             }
 
             setError('');
-            const response = await api.get(`/chat/messages?limit=${REQUEST_SIZE}&offset=${nextOffset}&sort=desc`);
+            // Endpoint moderation rieng: co senderEmail + senderIsBlocked, nam sau
+            // AdminGuard nen email khong lo ra payload cong khai.
+            const response = await api.get(`/api/admin/chat/messages?limit=${REQUEST_SIZE}&offset=${nextOffset}&sort=desc`);
             const payload = response?.data || response || [];
             const data = Array.isArray(payload) ? payload : [];
             const nextBatch = data.slice(0, PAGE_SIZE);
@@ -52,6 +54,22 @@ function Chat() {
             } else {
                 setLoadingMore(false);
             }
+        }
+    };
+
+    const handleBlock = async (msg) => {
+        const label = msg.userName || msg.senderEmail || ('User ' + msg.userId);
+        const defaultReason = 'Spam hoặc lạm dụng Global Chat';
+        const reason = window.prompt(`Nhập lý do chặn "${label}":`, defaultReason);
+        if (reason === null) return;
+
+        try {
+            await api.post(`/api/admin/users/${msg.userId}/block`, {
+                reason: reason.trim() || defaultReason,
+            });
+            await loadMessages(true);
+        } catch (err) {
+            alert(`Lỗi khi chặn: ${err.message || 'Không thể chặn người dùng'}`);
         }
     };
 
@@ -128,7 +146,7 @@ function Chat() {
                             <th>ID</th>
                             <th>Người gửi</th>
                             <th>Nội dung</th>
-                            <th>Xóa</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,7 +164,11 @@ function Chat() {
                                             }}
                                         />
                                         <div className="sender-meta">
-                                            <span className="sender-name">{msg.userName || ('User ' + msg.userId)}</span>
+                                            <span className="sender-name">
+                                                {msg.userName || ('User ' + msg.userId)}
+                                                {msg.senderIsBlocked && <span className="sender-blocked-badge">Đã chặn</span>}
+                                            </span>
+                                            {msg.senderEmail && <span className="sender-email">{msg.senderEmail}</span>}
                                             <span className="message-time">{formatTime(msg.createdAt)}</span>
                                         </div>
                                     </div>
@@ -157,6 +179,15 @@ function Chat() {
                                     </div>
                                 </td>
                                 <td className="delete-cell">
+                                    {!msg.senderIsBlocked && (
+                                        <button
+                                            className="btn-icon block"
+                                            onClick={() => handleBlock(msg)}
+                                            title="Chặn người gửi"
+                                        >
+                                            <i className="fas fa-user-lock"></i>
+                                        </button>
+                                    )}
                                     <button
                                         className="btn-icon delete"
                                         onClick={() => handleDelete(msg.id)}

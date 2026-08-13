@@ -273,3 +273,33 @@
     min-width: 720px;
   }
 }
+
+/* Email nguoi gui + nut chan (moderation) */
+.chat-manager .sender-email {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+}
+
+.chat-manager .sender-blocked-badge {
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #b91c1c;
+    background: #fee2e2;
+    vertical-align: middle;
+}
+
+.chat-manager .btn-icon.block {
+    color: #b45309;
+    background: #fef3c7;
+    margin-right: 6px;
+}
+
+.chat-manager .btn-icon.block:hover {
+    color: #ffffff;
+    background: #b45309;
+}
