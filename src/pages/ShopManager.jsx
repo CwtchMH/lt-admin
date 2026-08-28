@@ -3,7 +3,6 @@ import { api, API_BASE_URL, unwrapApiData } from '../services/api';
 import './ShopManager.css';
 
 export default function ShopManager() {
-    const DOMAIN_LIKE_URL_PATTERN = /^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:[/:?#]|$)/i;
     const CURRENT_R2_PUBLIC_BASE_URL = 'https://pub-d7e02113980f48ab8bc1fd93bac0addf.r2.dev';
     const LEGACY_R2_PUBLIC_BASE_URLS = [
         'https://pub-2f91437ba6264fd9859166205a859012.r2.dev',
@@ -15,7 +14,6 @@ export default function ShopManager() {
     const [items, setItems] = useState([]);
     const [customUploadPricing, setCustomUploadPricing] = useState(DEFAULT_CUSTOM_UPLOAD_PRICING);
     const [loading, setLoading] = useState(true);
-    const [localizingAssets, setLocalizingAssets] = useState(false);
     const [savingPricing, setSavingPricing] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
     const [isItemModalOpen, setIsItemModalOpen] = useState(false);
@@ -111,13 +109,6 @@ export default function ShopManager() {
         return `${API_BASE_URL}${normalizedUrl.startsWith('/') ? normalizedUrl : `/${normalizedUrl}`}`;
     };
 
-    const isRemoteAsset = (url) => (
-        typeof url === 'string'
-        && (
-            /^https?:\/\//i.test(url.trim())
-            || DOMAIN_LIKE_URL_PATTERN.test(url.trim())
-        )
-    );
     const VISUAL_TYPES = new Set(['avatar', 'background']);
     const IMAGE_ONLY_TYPES = new Set(['wrong_answer_meme', 'correct_answer_meme']);
     const AUDIO_ONLY_TYPES = new Set(['sound', 'typing_sound']);
@@ -206,7 +197,6 @@ export default function ShopManager() {
             // Ignore autoplay restrictions or transient playback errors.
         }
     };
-    const isLocalizableRemoteAsset = (url) => isRemoteAsset(url) && !isEmbeddableYouTubeUrl(url);
     const shouldShowVisualPreview = !AUDIO_ONLY_TYPES.has(formData.type);
 
     const isVideoSource = (sourceUrl, file = null) => {
@@ -383,36 +373,9 @@ export default function ShopManager() {
         setIsItemModalOpen(true);
     };
 
-    const handleLocalizeRemoteAssets = async () => {
-        if (!window.confirm('Chuyển tất cả asset shop đang dùng link ngoài về lưu trên server?')) {
-            return;
-        }
-
-        setLocalizingAssets(true);
-        try {
-            const res = await api.post('/api/admin/shop/localize-remote-assets');
-            const result = res.data || res;
-            const summary = result.data || result;
-
-            alert(
-                `Đã xử lý asset remote.\n` +
-                `- Tổng item remote: ${summary.totalRemoteItems || 0}\n` +
-                `- Thành công: ${summary.localizedCount || 0}\n` +
-                `- Thất bại: ${summary.failedCount || 0}`
-            );
-            fetchItems();
-        } catch (error) {
-            alert('Lỗi: ' + (error.message || 'Không thể nội địa hóa asset'));
-        } finally {
-            setLocalizingAssets(false);
-        }
-    };
-
     if (loading) {
         return <div className="loading">Đang tải...</div>;
     }
-
-    const remoteAssetCount = items.filter(item => isLocalizableRemoteAsset(item.imageUrl)).length;
 
     return (
         <div className="shop-manager">
@@ -464,47 +427,6 @@ export default function ShopManager() {
                     ))}
                 </div>
             </div>
-
-            {/* Admin Tools: Streak Recalculate */}
-            <div style={{ marginBottom: '20px', padding: '16px', background: '#f0f9ff', borderRadius: '12px', border: '1px solid #bae6fd' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: '16px', fontWeight: '600' }}>🔧 Công cụ quản trị</span>
-                    <button
-                        className="btn btn-primary"
-                        style={{ background: '#f97316', borderColor: '#f97316' }}
-                        onClick={async () => {
-                            if (!window.confirm('Cập nhật lại streak cho TẤT CẢ người dùng?')) return;
-                            try {
-                                const res = await api.post('/api/admin/recalculate-streaks');
-                                const data = res.data || res;
-                                alert(`✅ Đã cập nhật streak! ${data.message || ''}`);
-                            } catch (err) {
-                                alert('❌ Lỗi: ' + (err.message || 'Không thể cập nhật streak'));
-                            }
-                        }}
-                    >
-                        🔥 Cập nhật Streak tất cả
-                    </button>
-                </div>
-            </div>
-
-            {remoteAssetCount > 0 && (
-                <div style={{ marginBottom: '16px', padding: '14px 16px', background: '#fff7ed', borderRadius: '12px', border: '1px solid #fdba74' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-                        <div style={{ color: '#9a3412', fontWeight: '600' }}>
-                            Có {remoteAssetCount} item shop đang dùng link ngoài. Link kiểu này dễ lỗi theo tài khoản Google/cookie hoặc bị chặn hotlink.
-                        </div>
-                        <button
-                            className="btn btn-primary"
-                            style={{ background: '#2563eb', borderColor: '#2563eb' }}
-                            onClick={handleLocalizeRemoteAssets}
-                            disabled={localizingAssets}
-                        >
-                            {localizingAssets ? 'Đang chuyển asset...' : 'Chuyển asset về server'}
-                        </button>
-                    </div>
-                </div>
-            )}
 
             <div className="shop-list-toolbar">
                 <h2>Danh sách Items ({items.length})</h2>
@@ -758,11 +680,6 @@ export default function ShopManager() {
                                                                     : item.type}
                                     </span>
                                     <p className="item-description">{item.description}</p>
-                                    {isLocalizableRemoteAsset(item.imageUrl) && (
-                                        <div style={{ fontSize: '12px', color: '#b45309', fontWeight: '600', marginBottom: '8px' }}>
-                                            Asset ngoài: nên chuyển về server để tránh lỗi theo cookie/quyền truy cập.
-                                        </div>
-                                    )}
                                     <div className="item-price">💰 {item.price} coins</div>
                                     <div className="item-status">
                                         {item.isActive ? '✅ Hoạt động' : '❌ Không hoạt động'}
